@@ -14,7 +14,7 @@ So, this step is simply a download and build of a linux kernel:
 wget https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.15.178.tar.xz
 tar xvf linux-5.15.178.tar.xz
 cd linux-5.15.178/
-cp config-5.15.178 ./.config
+cp config-5.15.178-reap-iccs ./.config
 make menuconfig
 make -j
 ls arch/arm64/boot/Image
