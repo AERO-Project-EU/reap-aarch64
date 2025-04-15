@@ -20,7 +20,17 @@ make -j
 ls arch/arm64/boot/Image
 ```
 
-## Step 2: Install Redis server and populate it with the functions’ inputs:
+## Step 2: Build firecracker.
+With our changes in REAP+faasnap code we are able to run REAP using a vanilla latest version of firecracker.
+```
+git clone https://github.com/firecracker-microvm/firecracker.git
+cd firecracker
+git checkout tags/v1.12.0-dev
+tools/devtool build
+ls build/cargo_target/aarch64-unknown-linux-musl/debug
+```
+
+## Step 3: Install Redis server and populate it with the functions’ inputs:
 We provide in the current repo a populate_redis.py file which can be used to 
 ```
 apt install redis-server python3-pip
