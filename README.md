@@ -49,6 +49,7 @@ go install github.com/go-swagger/go-swagger/cmd/swagger@latest
 ~/go/bin/swagger generate server -f api/swagger.yaml
 go get -u ./... && go build cmd/faasnap-server/main.go
 ls ./main
+cp -r reap-aarch64/models ./
 ```
 
 ## Step 5: Build functions' rootfs:
@@ -66,6 +67,12 @@ python3 populate_redis.py
 Validate with redis-cli:
 auth <pass>
 keys *
+```
+
+## Step 7: Modify test-2inputs.json and run.
+Change the appropriate paths for guests kernel (see Step 1), rootfs (see Step 5) and firecracker binary (see Step2) and run as root:
+```
+./test.py test-2inputs.json
 ```
 
 [1] "Benchmarking, Analysis, and Optimization of Serverless Function Snapshots": https://arxiv.org/abs/2101.09355  
