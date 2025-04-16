@@ -30,7 +30,34 @@ tools/devtool build
 ls build/cargo_target/aarch64-unknown-linux-musl/debug
 ```
 
-## Step 3: Install Redis server and populate it with the functions’ inputs:
+## Step 3: Download GO.
+```
+wget https://go.dev/dl/go1.24.1.linux-arm64.tar.gz
+tar xvfz go1.24.1.linux-arm64.tar.gz
+ls ./go/bin/go
+```
+
+## Step 4: Clone the original faasnap code and apply our provide patch.
+```
+git clone https://github.com/ucsdsysnet/faasnap.git
+cd faasnap
+git checkout 6d47f5a808d34d37213c57e42a302b351e904614
+git apply --reject --whitespace=fix -- faasnap-reap-aarch64-iccs.patch
+apt update && apt install net-tools
+./prep.sh
+go install github.com/go-swagger/go-swagger/cmd/swagger@latest
+~/go/bin/swagger generate server -f api/swagger.yaml
+go get -u ./... && go build cmd/faasnap-server/main.go
+ls ./main
+```
+
+## Step 5: Build functions' rootfs:
+```
+cd rootfs
+make debian-rootfs.ext4
+```
+
+## Step 6: Install Redis server and populate it with the functions’ inputs:
 We provide in the current repo a populate_redis.py file which can be used to 
 ```
 apt install redis-server python3-pip
